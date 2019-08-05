@@ -1,14 +1,16 @@
-const mongoose = require('mongoose')
+const mongoose = require('../database/server')
 
 
 const ProdutoSchema = new mongoose.Schema({
   title: {
     type: String,
-    require: true
+    required: true,
+    lowercase: true,
+
   },
   price: {
     type: Number,
-    require: true
+    required: true
   },
   quantity: {
     type: Number,
