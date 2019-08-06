@@ -30,6 +30,7 @@ const UserSchema = new mongoose.Schema({
     default: Date.now,
   },
 })
+// efetua um hash na senha do usuario antes de salvar no db
 UserSchema.pre('save', async function(next){
   const hash = await bcrypt.hash(this.password, 12);
   this.password = hash;
