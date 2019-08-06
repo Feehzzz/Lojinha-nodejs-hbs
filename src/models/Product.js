@@ -1,20 +1,23 @@
-const mongoose = require('mongoose')
-const mongoosePaginate = require('mongoose-paginate')
+const mongoose = require('../database/server')
+
 
 const ProdutoSchema = new mongoose.Schema({
   title: {
     type: String,
-    require: true
+    required: true,
+    lowercase: true,
+
   },
   price: {
     type: Number,
-    require: true
+    required: true
   },
   quantity: {
     type: Number,
     required: true
   }
 })
+const Product = mongoose.model('Product', ProdutoSchema)
 
-ProdutoSchema.plugin(mongoosePaginate)
-mongoose.model('Product', ProdutoSchema);
+
+module.exports = Product;
