@@ -9,6 +9,7 @@ const MiddleController = require('./controllers/Middleware');
 routes.get('/products', ProductController.index);
 routes.post('/register', UserController.register);
 routes.post('/auth', UserController.auth);
+routes.post('/recovery', UserController.recovery);
 
 routes.use(MiddleController);
 

@@ -17,6 +17,14 @@ const UserSchema = new mongoose.Schema({
     required: true,
     select: false,
   },
+  passResetToken:{
+    type: String,
+    select: false,
+  },
+  passResetExpire: {
+    type: Date,
+    select: false,
+  },
   role: {
     type: Number,
     default: 0

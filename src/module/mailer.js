@@ -8,11 +8,19 @@ const transport = nodemailer.createTransport({
   auth: {
     user: process.env.nodem_user,
     pass: process.env.nodem_pass
-  }
+  },
 });
-transport.use('compile' ,hbs({
-  viewEngine:'handlebars',
-  viewPath: path.resolve('./src/module/mail'),
+
+const handlebarOptions = {
+  viewEngine: {
+    extName: '.html',
+    partialsDir: path.resolve('./src/module/mail/'),
+    layoutsDir: path.resolve('.src/module/mail/'),
+    defaultLayout: '',
+  },
+  viewPath: path.resolve('./src/module/mail/'),
   extName: '.html',
-}));
+}
+transport.use('compile', hbs(handlebarOptions))
+
 module.exports = transport;
