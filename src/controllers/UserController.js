@@ -10,6 +10,7 @@ function gerateToken(params = {}){
 }
 
 module.exports = {
+  // método de registro de usuario
   async register(req,res){
     const {email} = req.body
     try {
@@ -17,6 +18,7 @@ module.exports = {
         return res.status(400).send({Error: "Email já registrado"})
       }
       const user = await User.create(req.body)
+      // evitando que a senha e role do usuario retorn ao cadastrar/logar
       user.password = undefined;
       user.role = undefined;
       return res.send({ 
@@ -28,6 +30,7 @@ module.exports = {
       return res.status(400).send({Error: 'Registration failed '+ err});
     }
   },
+  // método de autenticação de usuario
   async auth(req,res){
     const { email, password } = req.body;
     const user = await User.findOne({ email }).select('+password');
@@ -39,10 +42,7 @@ module.exports = {
     user.password = undefined;
     user.role = undefined;
     user.lastLogon = new Date().getTime()
-    
-    
-   
-    
+    // retorna o usuario logado com seu devido token, que é valido por 30 minutos
     return res.send({
       user, 
       token: gerateToken({ id: user.id})

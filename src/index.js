@@ -1,7 +1,8 @@
 const express  = require('express')
 const bodyParser = require('body-parser');
 const cors = require('cors')
-const webport = 3000
+require('dotenv').config()
+const webport = 3000 || process.env.webport
 
 // iniciando o app
 const app = express();

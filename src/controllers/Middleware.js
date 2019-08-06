@@ -7,7 +7,7 @@ module.exports = (req,res,next) => {
   // verifica se existe o token no header
   if(!authHeader) 
   return res.status(401).send({error: 'Token não informado'});
-
+  // separa o token em dois para verificar a existencia do bearer
   const parts = authHeader.split(' ');
   if(!parts.lenght === 2) 
   return res.status(401).send({error: 'Token error'});
