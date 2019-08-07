@@ -9,7 +9,8 @@ const MiddleController = require('./controllers/Middleware');
 routes.get('/products', ProductController.index);
 routes.post('/register', UserController.register);
 routes.post('/auth', UserController.auth);
-routes.post('/recovery', UserController.recovery);
+routes.post('/recovery_password', UserController.recovery);
+routes.post('/reset_password', UserController.reset);
 
 routes.use(MiddleController);
 
