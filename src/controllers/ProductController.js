@@ -2,7 +2,15 @@ const Product = require('../models/Product');
 const User = require('../models/User');
 
 
+
 module.exports = {
+  // método que verifica se o usuario é admin para efetuar alterações
+  async isADM(req,res,next){
+    const user = await User.findById(req.userId)
+    if(user.isAdmin === true) return next();
+    return res.status(203).send({forbidden: 'you don\'t have authorization to do that'})
+    
+  },
   // traz todos os itens disponiveis do model de product
   async index(req, res) {
     const products = await Product.find()
@@ -10,11 +18,6 @@ module.exports = {
   },
   // metodo para criação de itens novos, caso seja adm
   async store(req, res) {
-  // verifica se o usuário é adm
-    const user = await User.findById(req.userId)
-    if (!user.isAdmin)
-      return res.status(203).send({ forbidden: 'you don\'t have authorization to do that' })
-
     const product = await Product.find({ "title": req.body.title })
     if (product.length < 1) {
       const newItem = await Product.create(req.body)
@@ -29,10 +32,6 @@ module.exports = {
   },
   // atualização do produto existente através do id
   async update(req, res) {
-    const user = await User.findById(req.userId)
-    if (!user.isAdmin)
-      return res.status(203).send({ forbidden: 'you don\'t have authorization to do that' })
-
     const {quantity, price } = req.body;
 
     try {
@@ -51,11 +50,8 @@ module.exports = {
   },
   // exclui o item do database
   async destroy(req, res) {
-    const user = await User.findById(req.userId)
-    if (!user.isAdmin)
-      return res.status(203).send({ forbidden: 'you don\'t have authorization to do that' })
-
     await Product.findByIdAndRemove(req.params.id)
     return res.status(200).send('Excluido com sucesso')
-  }
+  },
+  
 }

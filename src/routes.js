@@ -15,8 +15,8 @@ routes.post('/reset_password', UserController.reset);
 routes.use(MiddleController);
 
 // rotas acessiveis para adm
-routes.post('/products', ProductController.store);
-routes.put('/products/:id', ProductController.update);
-routes.delete('/products/:id', ProductController.destroy);
+routes.post('/products', ProductController.isADM, ProductController.store);
+routes.put('/products/:id', ProductController.isADM, ProductController.update);
+routes.delete('/products/:id', ProductController.isADM, ProductController.destroy);
 
 module.exports = routes;
