@@ -22,7 +22,7 @@ module.exports = {
       const user = await User.create(req.body)
       // evitando que a senha e role do usuario retorn ao cadastrar/logar
       user.password = undefined;
-      user.role = undefined;
+      user.isAdmin = undefined;
       return res.send({
         user,
         token: gerateToken({ id: user.id })
@@ -40,10 +40,10 @@ module.exports = {
       return res.status(404).send({ Error: 'Usuário não encontrado' })
     }
     if (!await bcrypt.compare(password, user.password))
-      return res.status(400).send({ Error: "Password invalido" })
+      return res.status(400).send({ Error: "Senha invalida" })
     user.password = undefined;
-    user.role = undefined;
-    user.lastLogon = new Date().getTime()
+    user.isAdmin = undefined;
+    user.lastLogon = new Date().getTime();
     // retorna o usuario logado com seu devido token, que é valido por 30 minutos
     return res.send({
       user,
@@ -73,13 +73,33 @@ module.exports = {
         context: { token, name},
       }, (err) => {
         if (err)
-        return res.status(400).send({ erro: 'não foi possível enviar o email' });
+        return res.status(400).send({ error: 'não foi possível enviar o email' });
 
         return res.send('Email enviado com sucesso')
       })
     } catch (err) {
       
       return res.status(400).send({ error: "erro ao recuperar senha" })
+    }
+  },
+  async reset(req,res){
+    const { email, token, password  } = req.body;
+    const now = new Date();
+    try {
+      const user = await User.findOne({ email }).select('+passResetToken passResetExpire');
+      if(token !== user.passResetToken)
+      return res.status(400).send({error: 'Token invalido'});
+      
+      if(now > user.passResetExpire)
+      return res.status(400).send({error: 'Token expirado, gere um novo'});
+
+      user.password = password;
+      
+      await user.save();
+      return res.send({Sucesso: "Senha alterada com êxito"})
+    } catch (err) {
+      return res.status(400).send({ error: "Não foi possível resetar a senha, tente novamente" });
+      
     }
   },
 }

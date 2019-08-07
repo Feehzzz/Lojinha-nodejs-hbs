@@ -25,9 +25,9 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     select: false,
   },
-  role: {
-    type: Number,
-    default: 0
+  isAdmin: {
+    type: Boolean,
+    default: false,
   },
   createdAt: {
     type: Date,
