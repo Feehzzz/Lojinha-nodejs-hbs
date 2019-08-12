@@ -15,15 +15,12 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    select: false,
   },
   passResetToken:{
     type: String,
-    select: false,
   },
   passResetExpire: {
     type: Date,
-    select: false,
   },
   isAdmin: {
     type: Boolean,

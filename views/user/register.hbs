@@ -1,0 +1,37 @@
+<div class="row bg-gradient ">
+  <div class='col-md-4 col-md-offset-4'>
+    <h1>Register</h1>
+    
+      {{> message}}
+    <form method="POST">
+    <div class='form-group inputName'>
+        <i class="fas fa-user"></i>
+        <input type="text" id='name' name='name' class='form-control' placeholder="Name or Nickname" > 
+      </div>
+      <div class='form-group inputEmail'>  
+        <i class="fas fa-envelope"></i>
+        <input type="text" id='email' name='email' class='form-control' placeholder="dumbledore@hogwarts.uk" > 
+      </div>
+      <div class='form-group inputPass'>
+        <i class="fas fa-key"></i>
+        <input type="password" id='password' name='password' class='form-control ' placeholder="Strong and safe password">
+      </div>
+      <div class='form-group inputPass'>
+        <i class="fas fa-key"></i>
+        <input type="password" id='password2' name='password2' class='form-control ' placeholder="Confirm your password">
+      </div>
+      <input type="hidden" name="_csrft" value='{{csrfToken}}'>
+      <button type="submit" class='btn btn-primary btn-enter'> Create Account</button>
+    </form>
+  </div>
+</div>
+<style>
+  .inputEmail i, .inputPass i, .inputName i {
+position: absolute;
+left: 14px;
+top: 10px;
+color: #aaa;
+transition: .3s;
+}
+
+</style>

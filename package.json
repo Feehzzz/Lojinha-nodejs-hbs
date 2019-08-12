@@ -1,10 +1,10 @@
 {
-  "name": "Pessoal",
+  "name": "personal",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon ./src/index.js"
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -12,9 +12,13 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
     "cors": "^2.8.5",
+    "csurf": "^1.10.0",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "express-session": "^1.16.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.8",
     "mongoose-paginate": "^5.0.3",
@@ -22,6 +26,8 @@
     "mysql2": "^1.6.5",
     "nodemailer": "^6.3.0",
     "nodemailer-express-handlebars": "^3.1.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "require-dir": "^1.2.0",
     "sequelize": "^5.12.2",
     "sequelize-cli": "^5.5.0"

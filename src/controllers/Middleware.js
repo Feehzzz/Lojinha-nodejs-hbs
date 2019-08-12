@@ -19,5 +19,5 @@ module.exports = (req,res,next) => {
     return res.status(401).send({error: 'token invalido'})
     req.userId = decoded.id;
     return next();
-  });
+  })
 };

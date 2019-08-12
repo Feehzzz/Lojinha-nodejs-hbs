@@ -1,0 +1,21 @@
+.thumbnail a {
+  max-height: 150px;
+}
+.price {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.inputEmail input[type=text], .inputPass input[type=password], .inputName input[type=text] {
+padding-left: 40px;
+}
+.inputEmail, .inputPass, .inputName {
+  position: relative;
+}
+.inputEmail i, .inputPass i, .inputName i {
+position: absolute;
+left: 14px;
+top: 34px;
+color: #aaa;
+transition: .3s;
+}

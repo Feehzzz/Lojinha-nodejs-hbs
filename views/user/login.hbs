@@ -1,0 +1,25 @@
+<div class="row bg-gradient ">
+  <div class='col-md-4 col-md-offset-4'>
+    {{> message}}
+    <h1>Sign in</h1>
+    <form method="POST">
+      <div class='form-group inputEmail'>
+        <label for="email" >E-mail</label>
+        <i class="far fa-user " aria-hidden="true"></i>
+        <input type="text" id='email' name='email' class='form-control' placeholder="dumbledore@hogwarts.uk" > 
+      </div>
+      <div class='form-group inputPass'>
+        <label for="password">Password</label>
+
+        <i class="fas fa-lock" aria-hidden="true"></i>
+        <input type="password" id='password' name='password' class='form-control ' placeholder="*********">
+      </div>
+      
+      <input type="hidden" name="_csrft" value='{{csrfToken}}'>
+      <button type="submit" class='btn btn-primary btn-enter'> <i class="fas fa-sign-in-alt"></i> Login</button>
+      <a href="user/forgot"><span class=''>Forgot Password?</span></a>
+      <span>New Here? </span><a href="user/register"><span class=''>Create account</span></a>
+    </form>
+  </div>
+
+</div>

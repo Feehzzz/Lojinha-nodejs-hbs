@@ -6,7 +6,6 @@ const ProdutoSchema = new mongoose.Schema({
     type: String,
     required: true,
     lowercase: true,
-
   },
   price: {
     type: Number,
@@ -14,6 +13,10 @@ const ProdutoSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
+    required: true
+  },
+  url_img: {
+    type: String,
     required: true
   }
 })

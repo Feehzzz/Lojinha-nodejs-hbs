@@ -1,8 +1,13 @@
+
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const transport = require('../module/mailer');
+
+
+
+
 
 
 function gerateToken(params = {}) {
@@ -12,43 +17,63 @@ function gerateToken(params = {}) {
 }
 
 module.exports = {
+  isLoggedIn (req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    req.flash('error_msg', 'Por favor, efetue o login para acessar o recurso');
+    res.redirect('/login');
+  },
+  notLoggedIn(req, res, next) {
+    if (!req.isAuthenticated()) {
+      return next();
+    }
+    res.redirect('/profile');      
+  },
   // método de registro de usuario
   async register(req, res) {
-    const { email } = req.body
-    try {
+    const { email, name, password, password2 } = req.body
+    let erros = []
+    
       if (await User.findOne({ email })) {
-        return res.status(400).send({ Error: "Email já registrado" })
+        erros.push("Email já registrado");
       }
-      const user = await User.create(req.body)
-      // evitando que a senha e role do usuario retorn ao cadastrar/logar
-      user.password = undefined;
-      user.isAdmin = undefined;
-      return res.send({
-        user,
-        token: gerateToken({ id: user.id })
-      })
-
-    } catch (err) {
-      return res.status(400).send({ Error: 'Registration failed ' + err });
-    }
+      if(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/gi.test(email) === false) erros.push('Email em formato invalido')
+      
+      if(password.length < 6 ){
+        erros.push('Senha deve conter mais do que 6 caracteres')
+      }
+      if(password !== password2){
+        erros.push('Senhas não batem')
+      }
+      if(!email || !name || !password || !password2){
+        erros.push('Preencha todos os campos')
+      }
+      if(erros.length > 0){
+        res.render('user/register', {
+          erros 
+            
+        })
+      } else {
+        const user = User.create(req.body).then(() => {
+          
+          req.flash('success_msg','Conta criada com sucesso!')
+          res.redirect('/login')
+        }).catch(err => console.log(err))
+      }
+    
   },
-  // método de autenticação de usuario
-  async auth(req, res) {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email }).select('+password');
-    if (!user) {
-      return res.status(404).send({ Error: 'Usuário não encontrado' })
-    }
-    if (!await bcrypt.compare(password, user.password))
-      return res.status(400).send({ Error: "Senha invalida" })
-    user.password = undefined;
-    user.isAdmin = undefined;
-    user.lastLogon = new Date().getTime();
-    // retorna o usuario logado com seu devido token, que é valido por 30 minutos
-    return res.send({
-      user,
-      token: gerateToken({ id: user.id })
-    });
+  registerGET(req,res){
+    res.render('user/register',{
+    title: 'Register'})
+  },
+  authGET(req,res) {
+    res.render('user/login', {
+      title: "Login"
+    })
+  },
+  forgotGet(req,res) {
+    res.render('user/forgot')
   },
   async recovery(req, res) {
     const { email } = req.body;
@@ -68,7 +93,7 @@ module.exports = {
       });
       transport.sendMail({
         to: email,
-        from: 'no-reply@gmail.com',
+        from: 'noreply@test.com',
         template: 'forgot_password',
         context: { token, name},
       }, (err) => {
@@ -102,4 +127,6 @@ module.exports = {
       
     }
   },
+  
+  
 }
