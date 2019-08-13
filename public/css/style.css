@@ -1,4 +1,4 @@
-.thumbnail a {
+.thumbnail img {
   max-height: 150px;
 }
 .price {
@@ -18,4 +18,26 @@ left: 14px;
 top: 34px;
 color: #aaa;
 transition: .3s;
+}
+.footer {
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height: 44px;
+  padding: 10px 30px;
+  background-color: #f8f8f8;
+  border-top: 1px solid #e0e0e0;
+}
+
+.card-img-top {
+  height: 180px;
+  width: 180px;
+}
+
+@media (max-width: 600px) {
+  .card {
+    margin: 0 auto;
+    font-size: 1.5rem;
+  }
+
 }

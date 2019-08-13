@@ -6,7 +6,9 @@ const webport = process.env.webport || 3000;
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
-const path = require('path')
+const path = require('path');
+const mongoose = require('./src/database/server')
+const mongoStore = require('connect-mongo')(session);
 
 
 require('./config/passport')(passport)
@@ -17,7 +19,13 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use(session({secret: process.env.secret, resave: false, saveUninitialized: false}));
+app.use(session({
+  secret: process.env.secret, 
+  resave: false, 
+  saveUninitialized: false, 
+  store: new mongoStore({ mongooseConnection: mongoose.connection}),
+  cookie: { maxAge: 180 * 60 * 1000}
+}));
 app.use(flash()); // captura as mensagens de erro
 app.use(passport.initialize());
 app.use(passport.session());
@@ -37,15 +45,13 @@ app.use((req, res, next) => {
 
 app.use((req,res,next) =>{
   res.locals.login = req.isAuthenticated();
-  next()
+  res.locals.session = req.session;
+  res.locals.user = req.user;
+  next();
 })
 
 // importando as rotas definidas
 app.use('/',require('./src/routes/routes'));
-
-
-
-
 
 // inicialização do servidor
 app.listen(webport, () => {

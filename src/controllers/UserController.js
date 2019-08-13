@@ -17,14 +17,14 @@ function gerateToken(params = {}) {
 }
 
 module.exports = {
-  isLoggedIn (req, res, next) {
+  LoggedIn (req, res, next) {
     if (req.isAuthenticated()) {
       return next();
     }
     req.flash('error_msg', 'Por favor, efetue o login para acessar o recurso');
     res.redirect('/login');
   },
-  notLoggedIn(req, res, next) {
+  notLogged(req, res, next) {
     if (!req.isAuthenticated()) {
       return next();
     }
@@ -74,6 +74,10 @@ module.exports = {
   },
   forgotGet(req,res) {
     res.render('user/forgot')
+  },
+  Logout(req, res){
+    req.logout();
+    res.redirect('/');
   },
   async recovery(req, res) {
     const { email } = req.body;
@@ -127,6 +131,7 @@ module.exports = {
       
     }
   },
+  
   
   
 }

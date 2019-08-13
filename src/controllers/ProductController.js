@@ -14,7 +14,12 @@ module.exports = {
   // traz todos os itens disponiveis do model de product
   async index(req, res) {
     const products = await Product.find()
-    return res.json(products);
+    let productArray = []
+    let jump = 3;
+    for(i=0; i < products.length; i += jump){
+      productArray.push(products.slice(i, i + jump));
+    }
+    res.render('shop/index', {title: 'Home', product: productArray })
   },
   // metodo para criação de itens novos, caso seja adm
   async store(req, res) {

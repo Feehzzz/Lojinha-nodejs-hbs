@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true
+    required: true
   },
   email: {
     type: String,
@@ -34,6 +34,10 @@ const UserSchema = new mongoose.Schema({
     type: Date, 
     default: Date.now,
   },
+  wallet: {
+    type: Number,
+    default: 100
+  }
 })
 // efetua um hash na senha do usuario antes de salvar no db
 UserSchema.pre('save', async function(next){

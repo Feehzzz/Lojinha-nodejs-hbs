@@ -8,20 +8,25 @@
 
   <title>{{title}}</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-  integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.1/css/all.css"
-  integrity="sha384-wxqG4glGB3nlqX0bi23nmgwCSjWIW13BdLUEYC4VIMehfbcro/ATkyDsF/AbIOVe" crossorigin="anonymous">
+    integrity="sha384-wxqG4glGB3nlqX0bi23nmgwCSjWIW13BdLUEYC4VIMehfbcro/ATkyDsF/AbIOVe" crossorigin="anonymous">
   <link rel="stylesheet" href='/css/style.css'>
 
 
 </head>
 
 <body>
+  {{#if user.isAdmin}}
+  {{>adminheader}}
+  {{else}}
   {{> header}}
 
+  {{/if}}
+
   <div class='container mt-4'>
-       
+
     {{{body}}}
   </div>
 
@@ -32,5 +37,10 @@
     crossorigin="anonymous"></script>
 
 </body>
-
+<footer class='footer'>
+  <div class="container">
+    {{> footer}}
+  </div>
+    
+</footer>
 </html>

@@ -1,19 +1,15 @@
 const express = require('express');
 const routes = express.Router();
 const passport = require('passport')
+const product = require('../models/Product')
+const Cart = require('../models/Cart')
 
-
-const Product = require('../controllers/ProductController');
-const User = require('../controllers/UserController');
+ 
+const ProductC = require('../controllers/ProductController');
+const UserC = require('../controllers/UserController');
 const MiddleController = require('../controllers/Middleware');
 
-routes.get('/', (req, res, next ) =>{
-    
-res.render('layouts/index')
-})
-
-
-routes.post('/login', User.notLoggedIn, (req,res, next) => {
+routes.post('/login', (req,res, next) => {
     passport.authenticate('local', {
         successRedirect: '/profile',
         failureRedirect:'/login',
@@ -21,42 +17,57 @@ routes.post('/login', User.notLoggedIn, (req,res, next) => {
     })(req,res,next)
 });
 
-routes.get('/login', User.notLoggedIn, User.authGET);
-routes.get('/register', User.isLoggedIn, User.registerGET);
-routes.post('/register', User.register);
+routes.get('/login', UserC.notLogged, UserC.authGET);
+routes.get('/register', UserC.notLogged, UserC.registerGET);
+routes.post('/register', UserC.register);
 
 
-// routes.get('/', ProductController.index)
-    // let productArray = []
-    // let wrap = 3;
-    // for(i=0; i< itens.length; i += wrap){
-    //   productArray.push(itens.slice(i, i + wrap));
-    // }
-    // res.render('layouts/index', {title: 'Shopping cart', product: productArray })
-
-
-
-routes.get('/profile', User.isLoggedIn, (req,res) =>{
-    res.render('user/profile')
+routes.get('/', ProductC.index);
+routes.get('/profile', UserC.LoggedIn, (req,res) => {
+    let date = req.user.createdAt
+    res.render('user/profile',{since: date.toLocaleDateString()} )
 })
 
-routes.get('/forgot', User.forgotGet)
-routes.get('/logout', (req,res) => {
-    req.logout();
-    res.redirect('/')
-})
+routes.get('/forgot', UserC.forgotGet);
+routes.get('/logout', UserC.Logout);
 
-// routes.get('/logout', (req, res) => {
-//   req.logout();
-//   req.flash('success_msg', 'You are logged out');
-//   res.redirect('user/signin');
-// });
+routes.get('/add-to-cart/:id', (req,res) => {
+    let productId = req.params.id;
+    let cart = new Cart(req.session.cart ? req.session.cart : {})
+    product.findById(productId, (err, product) => {
+        if(err) return res.redirect('/');
+        cart.add(product, product.id);
+        req.session.cart = cart;
+        res.redirect('/')
+    })
+    
+});
+
+
+routes.get('/shopping-cart', (req,res) => {
+    if(!req.session.cart){
+        return res.render('shop/cart', {products: null})
+    }
+    let cart = new Cart(req.session.cart);
+    return res.render('shop/cart', {products: cart.generateArray(), totalPrice: cart.totalPrice});
+});
+routes.get('/checkout', UserC.LoggedIn, (req,res) =>{
+    if (!req.session.cart) {
+        return res.redirect('/shopping-cart');
+    }
+    let cart = new Cart(req.session.cart);
+   return res.render('shop/checkout', {total: cart.totalPrice, user: req.user })
+
+})
 
 // // routes.use(MiddleController);
 
 // // rotas acessiveis para adm
-// routes.post('/products', ProductController.isADM, ProductController.store);
-// routes.put('/products/:id', ProductController.isADM, ProductController.update);
-// routes.delete('/products/:id', ProductController.isADM, ProductController.destroy);
+routes.post('/products', ProductC.store);
+routes.get('/getall', async (req,res) => {
+    const items = await product.find()
+    return res.json(items)
+})
+
 
 module.exports = routes;
