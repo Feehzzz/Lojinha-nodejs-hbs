@@ -24,7 +24,7 @@ app.use(session({
   resave: false, 
   saveUninitialized: false, 
   store: new mongoStore({ mongooseConnection: mongoose.connection}),
-  cookie: { maxAge: 180 * 60 * 1000}
+  cookie: { maxAge: 180 * 10 * 1000}
 }));
 app.use(flash()); // captura as mensagens de erro
 app.use(passport.initialize());

@@ -1,0 +1,42 @@
+<div class="row bg-gradient ">
+  <div class='col-md-4 col-md-offset-4'>
+    
+    <h1>Adicionar Novos produtos</h1>
+    <form method="POST">
+      <div class='form-group inputTitle'>
+        <label for="title" >Titulo do produto</label>
+        <i class="fas fa-info"
+         aria-hidden="true"></i>
+        <input type="text" id='title' name='title' class='form-control' > 
+      </div>
+      <div class='form-group inputPrice'>
+        <label for="price">Preço</label>
+
+        <i class="fas fa-dollar-sign"
+         aria-hidden="true"></i>
+        <input type="number" id='price' name='price' class='form-control'>
+      </div>
+      <div class='form-group inputQty'>
+        <label for="quantity">Quantidade</label>
+
+        <i class="fas fa-box-open"
+         aria-hidden="true"></i>
+        <input type="number" id='quantity' name='quantity' class='form-control'>
+      </div>
+      <div class='form-group inputUrl'>
+        <label for="url_img">Url da imagem</label>
+        <i class="fas fa-file-image"
+         aria-hidden="true"></i>
+        <input type="text" id='url_img' name='url_img' class='form-control'>
+      </div>
+      <button type="submit" class='btn btn-primary btn-enter'> <i class="fas fa-save"></i> Adicionar</button>
+    </form>
+  </div>
+</div>
+
+<style>
+  .inputTitle, .inputPrice, .inputQty, .inputUrl{
+
+  }
+
+</style>

@@ -8,19 +8,12 @@
         <strong>{{this.item.title}}</strong>
         <span class="label label-success">{{this.price}}</span>
         <div class='btn-group'>
-          <button class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">Acction <span
-              class='caret'></span></button>
-          <ul class="dropdown-menu">
-            <li><a href="#">-</a></li>
-            <li><a href="#">Exluir todos</a></li>
-
-          </ul>
+          <a href="/reduce/{{this.item._id}}"><button class="btn btn-primary btn-xs" type="button"><i class="fas fa-minus"></i></button></a>
+          <a href="/increment/{{this.item._id}}"><button class="btn btn-primary btn-xs" type="button"><i class="fas fa-plus"></i></button></a>
         </div>
       </li>
       {{/each}}
-
     </ul>
-
   </div>
 </div>
 

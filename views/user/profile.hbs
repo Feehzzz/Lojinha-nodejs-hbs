@@ -1,4 +1,4 @@
-<div class="card" style="width: 18rem;">
+{{!-- <div class="card" style="width: 18rem;">
   <img class="card-img-top" src="https://i.pinimg.com/originals/47/1a/1a/471a1ad342659289433e05a611d206f8.png"
     alt="user-photo">
   <div class="card-body">
@@ -8,7 +8,40 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item">Usuario: {{user.name}}</li>
     <li class="list-group-item">Membro desde: {{since}}</li>
-    <li class="list-group-item">Carteira: {{user.wallet}}</li>
+    <li class="list-group-item">Saldo: {{user.wallet}}</li>
   </ul>
 
+</div> --}}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="card" style="width: 18rem;">
+      
+        </div>
+         <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Usuario:</strong> {{user.name}}</li>
+          <li class="list-group-item"> <strong>Membro desde:</strong> {{since}}</li>
+          <li class="list-group-item"><strong>Saldo:</strong> {{user.wallet}}</li>
+        </ul>
+       
+        <hr>
+        <h2>My Orders</h2>
+        {{# each orders }}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul class="list-group">
+                        {{# each this.items }}
+                            <li class="list-group-item">
+                                <span class="badge">{{ this.price }}</span>
+                                {{ this.item.title }} | {{ this.qty }} Units
+                            </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="panel-footer">
+                    <strong>Total Price: ${{ this.cart.totalPrice }}</strong>
+                </div>
+            </div>
+        {{/each}}
+    </div>
 </div>
