@@ -2,7 +2,7 @@ const express  = require('express')
 const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars')
 require('dotenv').config();
-const webport = process.env.webport || 3000;
+const webport = process.env.port || 3000;
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
