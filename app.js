@@ -2,7 +2,7 @@ const express  = require('express')
 const bodyParser = require('body-parser');
 const handlebars = require('express-handlebars')
 require('dotenv').config();
-const webport = process.env.port || 3000;
+const portWeb = process.env.port || 3000;
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
@@ -54,7 +54,7 @@ app.use((req,res,next) =>{
 app.use('/',require('./src/routes/routes'));
 
 // inicialização do servidor
-app.listen(webport, () => {
+app.listen(portWeb, () => {
   console.log('Server is running')
 });
 
