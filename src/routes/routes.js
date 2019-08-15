@@ -146,6 +146,7 @@ routes.get('/products', UserC.isAdmin, ProductC.renderProduct);
 routes.post('/products', UserC.isAdmin, ProductC.store);
 
 
+
 // post para enviar email de recuperação
 routes.post('/forgot', UserC.recovery);
 // rota get para renderizar pagina de reset

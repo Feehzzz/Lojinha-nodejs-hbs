@@ -8,7 +8,8 @@ const csrf = require('csurf');
 module.exports = {
   // método que verifica se o usuario é admin para efetuar alterações
   async isADM(req, res, next) {
-    const user = await User.findById(req.userId)
+    const { email } = req.body
+    const user = await User.findOne(email)
     if (user.isAdmin === true) return next();
     return res.status(203).send({ forbidden: 'you don\'t have authorization to do that' })
 

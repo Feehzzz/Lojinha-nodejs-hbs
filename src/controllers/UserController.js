@@ -164,4 +164,18 @@ module.exports = {
       
     }
   }, 
+  async update(req, res) {
+    const {  wallet } = req.body;
+
+    try {
+      const user = await User.findById(req.params.id);
+      
+      user.wallet += wallet;
+      
+      await user.save()
+      return res.json(user)
+    } catch (err) {
+      return res.status(404).send({ erro: 'User not found' })
+    }
+  },
 }
