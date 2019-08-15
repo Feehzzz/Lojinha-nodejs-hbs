@@ -6,7 +6,8 @@
         <label for="email">E-mail</label>
         <input type="text" id='email' name='email' class='form-control' placeholder="dumbledore@hogwarts.uk">
       </div>
-      <button type="submit" class='btn btn-primary'>Send Email</button>
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+      <button type="submit" class='btn btn-primary'>Enviar token</button>
       
     </form>
   </div>

@@ -1,9 +1,10 @@
 
 const User = require('../models/User');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const transport = require('../module/mailer');
+const csrf = require('csurf');
+
 
 
 
@@ -72,15 +73,15 @@ module.exports = {
   },
   registerGET(req,res){
     res.render('user/register',{
-    title: 'Register'})
+    title: 'Register', csrfToken: req.csrfToken()})
   },
   authGET(req,res) {
     res.render('user/login', {
-      title: "Login"
+      title: "Login", csrfToken: req.csrfToken()
     })
   },
   forgotGet(req,res) {
-    res.render('user/forgot')
+    res.render('user/forgot',{csrfToken: req.csrfToken()})
   },
   Logout(req, res){
     req.logout();
@@ -118,7 +119,7 @@ module.exports = {
         }
 
         req.flash('success_msg','Email enviado com sucesso!')
-        res.redirect('/login')
+        res.redirect('/reset')
       })
     } catch (err) {
       req.flash('error_msg','Erro ao enviar email')
@@ -126,17 +127,16 @@ module.exports = {
     }
   },
   resetGet(req,res){
-    res.render('user/reset')
+    res.render('user/reset', {csrfToken: req.csrfToken()})
   },
   async reset(req,res){
     const { email, token, password, password2  } = req.body;
     const now = new Date();
     try {
       
-      const user = await User.findOne({ email }).select('+passResetToken passResetExpire');
-      console.log
+      const user = await User.findOne({ email })
+     
       if(token !== user.passResetToken){
-        
         req.flash('error_msg','Token invalido');
         res.redirect('/reset');
       }
@@ -144,17 +144,22 @@ module.exports = {
         req.flash('error_msg','Token expirado, gere um novo');
         res.redirect('/reset');
       }
-      if(password !== password2){
-        req.flash('error_msg','Senha não bate');
+      if(password.length < 6){
+        req.flash('error_msg','Senha precisa ter pelo menos 6 caracteres');
         res.redirect('/reset');
       }
-
+      if(password !== password2){
+        req.flash('error_msg','Senhas não batem, tente novamente');
+        res.redirect('/reset');
+      }
       user.password = password;
+      user.passResetToken = null;
       await user.save();
-      req.flash('success','Senha alterada com êxito');
+      req.flash('success_msg','Senha alterada com êxito');
+
       res.redirect('/login');
     } catch (err) {
-      console.log(err)
+      
       return res.status(400).send({ error: "Não foi possível resetar a senha, tente novamente" });
       
     }

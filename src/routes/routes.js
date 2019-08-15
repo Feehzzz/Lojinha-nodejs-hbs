@@ -5,11 +5,15 @@ const product = require('../models/Product');
 const Cart = require('../models/Cart');
 const Order = require('../models/Order');
 const User = require('../models/User')
-
+const csrf = require('csurf');
+const csrfProtection = csrf();
+routes.use(csrfProtection)
  
 const ProductC = require('../controllers/ProductController');
 const UserC = require('../controllers/UserController');
 // const MiddleController = require('../controllers/Middleware');
+
+
 // rota post para efetuar login
 routes.post('/login', (req,res, next) => {
     passport.authenticate('local', {
@@ -18,10 +22,13 @@ routes.post('/login', (req,res, next) => {
         failureFlash: true
     })(req,res,next)
 });
+
 // rota get para renderizar pagina de login
 routes.get('/login', UserC.notLogged, UserC.authGET);
+
 // rota get para renderizar pagina de registro
 routes.get('/register', UserC.notLogged, UserC.registerGET);
+
 // rota post para efetuar registro
 routes.post('/register', UserC.register);
 
@@ -64,7 +71,7 @@ routes.get('/add-to-cart/:id', (req,res) => {
         }  
     })
 });
-// "função" para remver itens ao carrinho
+// "função" para remover itens do carrinho
 routes.get('/reduce/:id', (req,res) => {
     let productId = req.params.id;
     let cart = new Cart(req.session.cart ? req.session.cart : {})
@@ -101,7 +108,7 @@ routes.get('/checkout', UserC.LoggedIn, (req,res) =>{
     }
     let cart = new Cart(req.session.cart);
     cart.totalPrice > req.user.wallet ? erros.push('Saldo insuficiente'): 0
-    res.render('shop/checkout', {total: cart.totalPrice, user: req.user, erros: erros})
+    res.render('shop/checkout', {csrfToken: req.csrfToken(),total: cart.totalPrice, user: req.user, erros: erros})
 })
 // rota para finalizar compra
 routes.post('/checkout', UserC.LoggedIn,  async(req,res) =>{
@@ -109,7 +116,6 @@ routes.post('/checkout', UserC.LoggedIn,  async(req,res) =>{
         return res.redirect('/shopping-cart');
     }
     let cart = new Cart(req.session.cart)
-    
     if(req.user.wallet >= cart.totalPrice){
         let order =  new Order({
             user: req.user,

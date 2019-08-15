@@ -1,18 +1,3 @@
-{{!-- <div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="https://i.pinimg.com/originals/47/1a/1a/471a1ad342659289433e05a611d206f8.png"
-    alt="user-photo">
-  <div class="card-body">
-    <h5 class="card-title"></h5>
-    <p class="card-text">Bio: Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Usuario: {{user.name}}</li>
-    <li class="list-group-item">Membro desde: {{since}}</li>
-    <li class="list-group-item">Saldo: {{user.wallet}}</li>
-  </ul>
-
-</div> --}}
-
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
       <div class="card" style="width: 18rem;">
@@ -25,15 +10,15 @@
         </ul>
        
         <hr>
-        <h2>My Orders</h2>
+        <h2>Minhas compras</h2>
         {{# each orders }}
             <div class="panel panel-default">
                 <div class="panel-body">
                     <ul class="list-group">
                         {{# each this.items }}
                             <li class="list-group-item">
-                                <span class="badge">{{ this.price }}</span>
-                                {{ this.item.title }} | {{ this.qty }} Units
+                                <span class="badge">${{ this.price }}</span>
+                                {{ this.item.title }} | Quantidade: {{ this.qty }} 
                             </li>
                         {{/each}}
                     </ul>

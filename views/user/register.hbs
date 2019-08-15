@@ -19,7 +19,7 @@
         <i class="fas fa-key"></i>
         <input type="password" id='password2' name='password2' class='form-control ' placeholder="Confirm your password">
       </div>
-      
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
       <button type="submit" class='btn btn-primary btn-enter'> Create Account</button>
     </form>
   </div>

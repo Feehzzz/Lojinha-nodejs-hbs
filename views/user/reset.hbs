@@ -14,7 +14,8 @@
       <div class='form-group'>
         <input type="password" id='password2' name='password2' class='form-control' placeholder="confirm your password">
       </div>
-      <button type="submit" class='btn btn-primary'>Reset</button>
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+      <button type="submit" class='btn btn-primary'>Atualizar</button>
   </div>
   </form>
 </div>

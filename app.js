@@ -55,6 +55,6 @@ app.use('/',require('./src/routes/routes'));
 
 // inicialização do servidor
 app.listen(webport, () => {
-  console.log('Server is running localhost:'+webport)
+  console.log('Server is running')
 });
 

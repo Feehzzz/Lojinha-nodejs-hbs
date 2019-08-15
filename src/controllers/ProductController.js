@@ -1,5 +1,7 @@
 const Product = require('../models/Product');
 const User = require('../models/User');
+const csrf = require('csurf');
+
 
 
 
@@ -18,9 +20,10 @@ module.exports = {
     let jump = 3;
     for (i = 0; i < products.length; i += jump) {
       productArray.push(products.slice(i, i + jump));
+      
     }
     
-    res.render('shop/index', { title: 'Home', product: productArray })
+    res.render('shop/index', { title: 'Home', product: productArray,  })
   },
   // metodo para criação de itens novos, caso seja adm
   async store(req, res) {
@@ -74,7 +77,7 @@ module.exports = {
     return res.status(200).send('Excluido com sucesso')
   },
   renderProduct(req, res) {
-    res.render('admin/products')
+    res.render('admin/products',{csrfToken: req.csrfToken()})
   }
 
 }

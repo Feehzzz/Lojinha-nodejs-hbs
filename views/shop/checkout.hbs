@@ -4,10 +4,12 @@
         <h1>Checkout</h1>
         <h4>Saldo: ${{user.wallet}}</h4>
         <h4>Total das compras: ${{total}}</h4>
-        <form action="/checkout" method="post" id="checkout-form">
+        <form method="post" id="checkout-form">
             <div class="row">
                 
             </div>
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+
             <button type="submit" class="btn btn-success">Finalizar compra</button>
         </form>
     </div>

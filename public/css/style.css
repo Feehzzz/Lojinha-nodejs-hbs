@@ -7,6 +7,9 @@ html, body {
   height: 91%;
   position: relative;
 }
+.outofstock {
+  opacity: 0.6;
+}
 .thumbnail img {
   max-height: 150px;
   margin-top: 10px;
