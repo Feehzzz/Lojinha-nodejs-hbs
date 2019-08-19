@@ -88,7 +88,7 @@ routes.get('/increment/:id', (req,res) => {
         if(err) res.redirect('/');
         cart.add(product, product.id);
         req.session.cart = cart;
-        req.flash('success_msg','Produto incrementado')
+        req.flash('success_msg','Produto adicionado')
         res.redirect('/shopping-cart')
     })
 });
